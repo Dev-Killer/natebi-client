@@ -67,7 +67,7 @@
 
 <script lang="js">
 import Vue from 'vue';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, browserLocalPersistence, setPersistence, signInWithEmailAndPassword } from "firebase/auth";
 export default Vue.extend({
   name: "Login",
 
@@ -98,13 +98,19 @@ export default Vue.extend({
     handleAddField() {
             this.$refs.form.validate();
             if (this.valid) {
+              const auth = getAuth();
+              setPersistence(auth, browserLocalPersistence)
+                .then(
+                  () => {
+                    this.login(auth);
+                  }
+                )
               this.login()
             }
         },
 
-        login() {
+        login(auth) {
           this.isLoading = true
-          const auth = getAuth();
           signInWithEmailAndPassword(auth, this.fields.email, this.fields.password)
             .then((userCredential) => {
               // Signed in

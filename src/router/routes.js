@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import HomeView from "../views/public/HelloWorld.vue";
 import Login from "../views/public/Login.vue";
 import AdminLayout from "../layouts/AdminLayout.vue";
@@ -12,13 +12,23 @@ Vue.use(VueRouter);
 
 async function guardUserPage(to, from, next) {
   const auth = getAuth();
-  const user = auth.currentUser;
+
+  onAuthStateChanged(auth, (user) => {
+    console.log(user);
+    if (user) {
+      next();
+    } else {
+      next({ name: "Home" });
+    }
+  });
+
+  /* const user = auth.currentUser;
   console.log(user);
   if (user !== null) {
     next();
   } else {
     next({ name: "Home" });
-  }
+  } */
 }
 
 const router = new VueRouter({

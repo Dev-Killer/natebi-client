@@ -4,7 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
-      @submit.prevent="handleAddField()"
+      @submit.prevent="handleUpdateField()"
     >
       <v-card style="background-color: #fff5f3">
         <v-card-title>
@@ -57,7 +57,6 @@
                   outlined
                   label="Cotisation *"
                   type="number"
-                  :rules="[rules.required]"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12>
@@ -91,7 +90,7 @@
                   :items="items"
                   item-value="title"
                   item-text="text"
-                  :rules="[rules.required]"
+                  disabled
                 ></v-select>
               </v-flex>
             </v-layout>
@@ -109,25 +108,16 @@
 
 <script>
 import Vue from "vue";
-import { child, get, ref, set } from "firebase/database";
 export default Vue.extend({
-  name: "CreateContribDialog",
+  name: "UpdateContribDialog",
   props: {
     dialog: { type: Boolean, default: false },
-    db: { type: Object, required: true },
+    fields: { type: Object, required: true },
+    path: { type: String, required: true },
   },
 
   data: () => ({
     valid: true,
-    fields: {
-      prenom: "",
-      nom: "",
-      phone: "",
-      localite: "",
-      contrib: 0,
-      contribDate: null,
-    },
-    zone: null,
     rules: {
       phone: (v) => !v || (v.length > 0 && v.length == 9) || "Taille incorrect",
       required: (v) => (v && !!v.trim()) || "Obligatoire.",
@@ -145,55 +135,24 @@ export default Vue.extend({
     ],
   }),
 
+  computed: {
+    zone() {
+      return this.path == "contributors_sn" ? "sn" : "int";
+    },
+  },
+
   methods: {
-    handleAddField() {
+    handleUpdateField() {
       this.$refs.form.validate();
       if (this.valid) {
-        const path = this.zone == "sn" ? "contributors_sn" : "contributors_int";
-        this.$emit("loadOn");
-        get(child(ref(this.db), `${path}`))
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              this.saveContrib(path, snapshot.size);
-            } else {
-              this.$swal.fire({ title: "Erreur", text: "", icon: "error" });
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-            this.$swal.fire({ title: "Erreur", text: "", icon: "error" });
-            this.$emit("loadOff");
-          });
-        /* this.saveContrib(
-          this.zone == "sn" ? "contributors_sn" : "contributors_int"
-        ); */
+        this.$emit("update");
       }
     },
 
-    saveContrib(path, length) {
-      set(ref(this.db, `${path}/${length}`), {
-        ...this.fields,
-        contrib: parseInt(this.fields.contrib),
-      })
-        .then(() => {
-          console.log("success");
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$swal.fire({ title: "Erreur", text: "", icon: "error" });
-          this.cancelDialog();
-        })
-        .finally(() => {
-          this.cancelDialog();
-        });
-    },
     cancelDialog() {
       this.$refs.form.reset();
-      this.$emit("loadOff");
       this.$emit("cancel");
     },
   },
 });
 </script>
-
-<style></style>

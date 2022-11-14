@@ -17,5 +17,6 @@ module.exports = {
     "vue/no-mutating-props": "off",
     "vue/multi-word-component-names": "off",
     "vue/no-unused-components": "off",
+    "vue/valid-v-slot": "off",
   },
 };
