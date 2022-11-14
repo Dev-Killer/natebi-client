@@ -14,7 +14,6 @@ async function guardUserPage(to, from, next) {
   const auth = getAuth();
 
   onAuthStateChanged(auth, (user) => {
-    console.log(user);
     if (user) {
       next();
     } else {
