@@ -10,7 +10,8 @@
             <v-col cols="auto" class="pb-0">
               <v-card-text>
                 <h4 class="ms-4 ms-md-8 text-h3 text-capitalize">
-                  16<span class="text-h5 text-capitalize">Pers</span>
+                  {{ data_sn.nbre
+                  }}<span class="text-h5 text-capitalize">Pers</span>
                 </h4>
               </v-card-text>
               <v-card-actions>
@@ -20,7 +21,7 @@
                   elevation="2"
                   dark
                   class="font-weight-bold ms-4 mb-2"
-                  >18000 F CFA</v-btn
+                  >{{ data_sn.contrib }} FCFA</v-btn
                 >
               </v-card-actions>
             </v-col>
@@ -42,7 +43,8 @@
             <v-col cols="auto" class="pb-0">
               <v-card-text>
                 <h4 class="ms-4 ms-md-8 text-h3 text-capitalize">
-                  16<span class="text-h5 text-capitalize">Pers</span>
+                  {{ data_int.nbre
+                  }}<span class="text-h5 text-capitalize">Pers</span>
                 </h4>
               </v-card-text>
               <v-card-actions>
@@ -52,7 +54,7 @@
                   elevation="2"
                   dark
                   class="font-weight-bold ms-4 mb-2"
-                  >180 Euro</v-btn
+                  >{{ data_int.contrib }} FCFA</v-btn
                 >
               </v-card-actions>
             </v-col>
@@ -74,7 +76,8 @@
             <v-col cols="auto" class="pb-0">
               <v-card-text>
                 <h4 class="ms-4 ms-md-8 text-h3 text-capitalize">
-                  32<span class="text-h5 text-capitalize">Pers</span>
+                  {{ data_all.nbre
+                  }}<span class="text-h5 text-capitalize">Pers</span>
                 </h4>
               </v-card-text>
               <v-card-actions>
@@ -84,7 +87,7 @@
                   elevation="2"
                   dark
                   class="font-weight-bold ms-4 mb-2"
-                  >299503 F CFA</v-btn
+                  >{{ data_all.contrib }} FCFA</v-btn
                 >
               </v-card-actions>
             </v-col>
@@ -102,11 +105,52 @@
 
 <script lang="js">
 import Vue from 'vue';
+import { getDatabase, onValue, ref } from "firebase/database";
 export default Vue.extend({
   name: 'Dashboard',
+  data: () => ({
+    db: null,
+    data_sn: {
+      nbre: 0,
+      contrib: 0
+    },
+    data_int: {
+      nbre: 0,
+      contrib: 0
+    },
+    data_all: {
+      nbre: 0,
+      contrib: 0
+    }
+  }),
 
   created() {
     this.$emit('currentPage', 'Tableau de bord')
+    this.db = getDatabase();
+    this.fetchData()
+  },
+
+  methods: {
+    fetchData() {
+      onValue(ref(this.db, '/'), (snapshot) => {
+        const datas = snapshot.exportVal();
+        /* ---- SN ------ */
+        this.data_sn.nbre = Object.keys(datas.contributors_sn).length;
+        for (const key of Object.keys(datas.contributors_sn)) {
+          this.data_sn.contrib += datas.contributors_sn[key].contrib
+        }
+
+        /* ---- INT ------ */
+        this.data_int.nbre = Object.keys(datas.contributors_int).length;
+        for (const key of Object.keys(datas.contributors_int)) {
+          this.data_int.contrib += datas.contributors_int[key].contrib
+        }
+
+        /* ---- ALL ------ */
+        this.data_all.nbre = this.data_sn.nbre + this.data_int.nbre
+        this.data_all.contrib = this.data_sn.contrib + this.data_int.contrib
+      });
+    },
   }
 })
 </script>

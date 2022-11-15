@@ -123,10 +123,7 @@ export default Vue.extend({
               // ...
             })
             .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              console.log(errorCode);
-              console.log(errorMessage);
+              console.log(error);
   });
         },
 
