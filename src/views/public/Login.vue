@@ -90,6 +90,10 @@ export default Vue.extend({
         },
   }),
 
+  created() {
+    console.log(process.env);
+  },
+
   methods: {
     redirect() {
       this.$route.push({name: 'Dashboard'})
