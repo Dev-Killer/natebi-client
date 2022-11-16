@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <div class="text-center">
-      <v-img src="img/login_rafiki.png"></v-img>
+      <v-img :src="require('@/assets/imgs/login_rafiki.png')"></v-img>
     </div>
     <p
       style="font-family: 'Caveat', cursive !important"
@@ -90,12 +90,7 @@ export default Vue.extend({
         },
   }),
 
-  created() {
-    console.log(process.env);
-  },
-
   methods: {
-
     redirect() {
       this.$route.push({name: 'Dashboard'})
     },
@@ -131,23 +126,6 @@ export default Vue.extend({
               console.log(error ?? 'pass');
   });
         },
-
-    /* login() {
-      axios.post('/login', fields)
-        .then(
-          res => {
-            console.log(res);
-          }
-        )
-        .catch(
-          err => {
-            console.log(err);
-          }
-        )
-        .finally(
-          () => { this.isLoading = false }
-        )
-    }, */
   }
 })
 </script>

@@ -12,6 +12,7 @@ export default {
       profile: "",
       email: "",
     },
+    configCode: "OscarSierra",
   }),
 
   getters: {
@@ -20,6 +21,9 @@ export default {
     },
     user(state) {
       return state.user;
+    },
+    getConfigCode(state) {
+      return state.configCode;
     },
   },
 

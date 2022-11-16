@@ -7,6 +7,7 @@ import AdminLayout from "../layouts/AdminLayout.vue";
 import Dashboard from "../views/admin/Dashboard.vue";
 import Contribution from "../views/admin/Contribution.vue";
 import PublicLayout from "../layouts/PublicLayout.vue";
+import CreateNewUser from "../views/superadmin/CreateNewUser.vue";
 
 Vue.use(VueRouter);
 
@@ -48,6 +49,10 @@ const router = new VueRouter({
           component: Contribution,
         },
       ],
+    },
+    {
+      path: "/config",
+      component: CreateNewUser,
     },
     {
       path: "/",
