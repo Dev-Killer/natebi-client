@@ -95,6 +95,7 @@ export default Vue.extend({
   },
 
   methods: {
+
     redirect() {
       this.$route.push({name: 'Dashboard'})
     },
