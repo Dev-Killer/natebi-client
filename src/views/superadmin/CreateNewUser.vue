@@ -18,7 +18,11 @@
 
     <!-- Content -->
     <v-main style="background-color: #ffeae8">
-      <div class="pt-4">
+      <v-card flat
+        height="100%"
+        :color="$vuetify.theme.dark ? '#232B3E' : '#FFF5F3'"
+        class="pt-4"
+        rounded="0">
         <h1 class="text-center" style="font-family: 'Courier New', Courier, monospace;">New User</h1>
 
       <p class="text-center">Fill form fields and save</p>
@@ -53,7 +57,7 @@
       <v-overlay :value="isLoading">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
-      </div>
+      </v-card>
     </v-main>
 
     <!-- Footer -->
@@ -76,7 +80,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm6 md4>
+                <v-flex xs12 >
                   <v-text-field :label="label" v-model="code" outlined rounded required></v-text-field>
                 </v-flex>
               </v-layout>
@@ -171,7 +175,6 @@ export default Vue.extend({
 
     submitCode() {
       const tmp = this.$store.getters["auth/getConfigCode"];
-      console.log(tmp);
       if (this.code === tmp) this.isCodeValid = true
       else this.$router.push({ name: 'Home' })
     }
