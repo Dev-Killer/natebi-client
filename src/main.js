@@ -7,6 +7,7 @@ import vuetify from "./plugins/vuetify";
 import swal from "./plugins/swal";
 import moment from "./plugins/moment";
 import { initializeApp } from "firebase/app";
+import "./registerServiceWorker";
 
 Vue.config.productionTip = false;
 
