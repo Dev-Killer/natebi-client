@@ -151,6 +151,8 @@ export default Vue.extend({
     loadOff() {
       this.$emit("loadOff");
     },
+
+    print() {},
   },
 });
 </script>
