@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card flat class="transparent">
     <v-data-table
       :headers="headers"
       :items="items"
@@ -27,6 +27,12 @@
       @cancel="updaterDialog = false"
       @update="update"
     ></update-contrib-dialog>
+    <div class="my-5 text-center transparent">
+      <v-btn rounded dark color="#8b5131"
+        >Imprimer &nbsp;
+        <v-icon>mdi-printer-outline</v-icon>
+      </v-btn>
+    </div>
   </v-card>
 </template>
 

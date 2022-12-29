@@ -21,7 +21,6 @@ async function guardUserPage(to, from, next) {
       next({ name: "Home" });
     }
   });
-
   /* const user = auth.currentUser;
   console.log(user);
   if (user !== null) {
@@ -29,6 +28,18 @@ async function guardUserPage(to, from, next) {
   } else {
     next({ name: "Home" });
   } */
+}
+
+async function redirectAfterLoggedIn(to, from, next) {
+  const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      next({ name: "Dashboard" });
+    } else {
+      next();
+    }
+  });
 }
 
 const router = new VueRouter({
@@ -57,6 +68,7 @@ const router = new VueRouter({
     {
       path: "/",
       component: PublicLayout,
+      beforeEnter: redirectAfterLoggedIn,
       children: [
         {
           path: "",
