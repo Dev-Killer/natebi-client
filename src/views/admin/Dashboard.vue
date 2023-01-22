@@ -20,8 +20,8 @@
                   outlined
                   elevation="2"
                   dark
-                  class="font-weight-bold ms-4 mb-2"
-                  >{{ data_sn.contrib }} FCFA</v-btn
+                  class="font-weight-regular ms-4 mb-2 text-h6"
+                  >{{ data_sn.contrib | toCurrency }}</v-btn
                 >
               </v-card-actions>
             </v-col>
@@ -53,8 +53,8 @@
                   outlined
                   elevation="2"
                   dark
-                  class="font-weight-bold ms-4 mb-2"
-                  >{{ data_int.contrib }} FCFA</v-btn
+                  class="font-weight-regular ms-4 mb-2 text-h6"
+                  >{{ data_int.contrib | toCurrency }}</v-btn
                 >
               </v-card-actions>
             </v-col>
@@ -86,8 +86,8 @@
                   outlined
                   elevation="2"
                   dark
-                  class="font-weight-bold ms-4 mb-2"
-                  >{{ data_all.contrib }} FCFA</v-btn
+                  class="font-weight-regular ms-4 mb-2 text-h6"
+                  >{{ data_all.contrib | toCurrency }}</v-btn
                 >
               </v-card-actions>
             </v-col>

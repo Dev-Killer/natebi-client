@@ -33,6 +33,17 @@ Vue.prototype.$guardTLD = async (to, from, next) => {
   next();
 };
 
+Vue.filter("toCurrency", function (value) {
+  if (typeof value !== "number") {
+    return value;
+  }
+  var formatter = new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "XOF",
+  });
+  return formatter.format(value);
+});
+
 new Vue({
   router,
   store,
